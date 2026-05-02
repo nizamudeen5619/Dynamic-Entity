@@ -1,6 +1,6 @@
 {
   "name": "@dynamic-entity/core",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Shared TypeScript interfaces for the dynamic-entity ecosystem. Zero runtime code.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",

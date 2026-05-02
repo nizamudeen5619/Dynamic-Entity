@@ -1,6 +1,6 @@
 {
   "name": "ngx-dynamic-entity",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Angular 17 standalone UI library for dynamic entity forms and tables.",
   "scripts": {
     "build": "npx ng-packagr -p ng-package.json",
@@ -10,7 +10,7 @@
     "@angular/common": "^17.0.0",
     "@angular/core": "^17.0.0",
     "@angular/forms": "^17.0.0",
-    "@dynamic-entity/core": "*",
+    "@dynamic-entity/core": "0.0.1",
     "rxjs": "^7.0.0"
   },
   "devDependencies": {

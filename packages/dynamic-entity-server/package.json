@@ -1,6 +1,6 @@
 {
   "name": "dynamic-entity-server",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Production-ready Node.js/Express router for dynamic entity management with MongoDB, RBAC, hooks, and migrations.",
   "main": "index.js",
   "files": [
@@ -13,7 +13,7 @@
     "dev": "node packages/demo-node/src/index.js"
   },
   "dependencies": {
-    "@dynamic-entity/core": "*",
+    "@dynamic-entity/core": "0.0.1",
     "express": "^4.18.2",
     "mongoose": "^8.0.0"
   },
