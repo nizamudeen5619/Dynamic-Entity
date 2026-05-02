@@ -5,3 +5,6 @@ dist/
 .env
 .env.local
 coverage/
+.antigravity*
+.onehermes*
+.gemini/
