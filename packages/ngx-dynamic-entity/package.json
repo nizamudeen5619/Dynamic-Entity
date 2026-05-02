@@ -1,0 +1,33 @@
+{
+  "name": "ngx-dynamic-entity",
+  "version": "1.0.0",
+  "description": "Angular 17 standalone UI library for dynamic entity forms and tables.",
+  "scripts": {
+    "build": "npx ng-packagr -p ng-package.json",
+    "lint": "ng lint ngx-dynamic-entity"
+  },
+  "peerDependencies": {
+    "@angular/common": "^17.0.0",
+    "@angular/core": "^17.0.0",
+    "@angular/forms": "^17.0.0",
+    "@dynamic-entity/core": "*",
+    "rxjs": "^7.0.0"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^17.0.0",
+    "@angular/cli": "^17.0.0",
+    "@angular/compiler": "^17.0.0",
+    "@angular/compiler-cli": "^17.0.0",
+    "ng-packagr": "^17.0.0",
+    "typescript": "~5.2.0"
+  },
+  "keywords": [
+    "angular",
+    "dynamic-entity",
+    "dynamic-forms",
+    "dynamic-table",
+    "rbac"
+  ],
+  "license": "MIT",
+  "sideEffects": false
+}

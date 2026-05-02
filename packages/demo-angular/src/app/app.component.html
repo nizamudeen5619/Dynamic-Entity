@@ -1,0 +1,94 @@
+<div class="demo-container">
+  <header class="demo-header">
+    <h1>Dynamic Entity Demo</h1>
+
+    <nav class="demo-nav">
+      <button class="nav-link" [class.nav-link--active]="view() === 'list' || view() === 'form'"
+        (click)="setView('list')">Clients Data</button>
+      <button class="nav-link" [class.nav-link--active]="view() === 'config'" (click)="setView('config')">Entity
+        Manager</button>
+    </nav>
+
+    <div class="role-switcher">
+      <span>Current Role:</span>
+      <button class="role-btn" [class.role-btn--active]="currentRole() === 'admin'"
+        (click)="setRole('admin')">Admin</button>
+      <button class="role-btn" [class.role-btn--active]="currentRole() === 'manager'"
+        (click)="setRole('manager')">Manager</button>
+      <button class="role-btn" [class.role-btn--active]="currentRole() === 'IT_SUPPORT'"
+        (click)="setRole('IT_SUPPORT')">IT Support (Masked Salary)</button>
+      <button class="role-btn" [class.role-btn--active]="currentRole() === 'viewer'" (click)="setRole('viewer')">Viewer
+        (Readonly)</button>
+    </div>
+  </header>
+
+  <main>
+    @if (error()) {
+    <div class="ngx-form__error-banner">{{ error() }}</div>
+    }
+
+    <div class="view-toggle">
+      @if (view() === 'list') {
+      <button class="ngx-form__submit" (click)="onCreateNew()">+ Add Client</button>
+      } @else {
+      <button class="ngx-form__reset" (click)="onCancel()">← Back to List</button>
+      }
+    </div>
+
+    @if (view() === 'list' || view() === 'form') {
+    @if (config()) {
+    @if (view() === 'list') {
+    <ngx-dynamic-table [config]="config()!" [data]="records()" [userRoles]="userRoles()" [loading]="loading()"
+      [totalRecords]="totalRecords()" [currentPage]="currentPage()" [pageSize]="pageSize()"
+      (rowClick)="onRowClick($event)" (pageChange)="onPageChange($event)" (sortChange)="onSortChange($event)"
+      (searchChange)="onSearchChange($event)"></ngx-dynamic-table>
+    } @else {
+    <div class="form-wrapper">
+      <h2>{{ selectedRecord() ? 'Edit Client' : 'New Client' }}</h2>
+      <ngx-dynamic-form [config]="config()!" [initialData]="selectedRecord() || {}" [userRoles]="userRoles()"
+        [loading]="loading()" (formSubmit)="onFormSubmit($event)" (formReset)="onCancel()"></ngx-dynamic-form>
+    </div>
+    }
+    } @else {
+    <p>Loading configuration...</p>
+    }
+    }
+
+    @if (view() === 'config') {
+    <div class="config-manager">
+      <h2>Manage Entities</h2>
+      <table class="ngx-table__table">
+        <thead>
+          <tr>
+            <th class="ngx-table__th">Entity Key</th>
+            <th class="ngx-table__th">Version</th>
+            <th class="ngx-table__th">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (cfg of allConfigs(); track cfg.entity) {
+          <tr class="ngx-table__row">
+            <td class="ngx-table__td">{{ cfg.entity }}</td>
+            <td class="ngx-table__td">{{ cfg.version }}</td>
+            <td class="ngx-table__td">
+              <button class="ngx-table__action" (click)="selectedConfig.set(cfg)">✏ Edit Metadata</button>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+
+      @if (selectedConfig() || !allConfigs().length) {
+      <div class="form-wrapper" style="margin-top: 2rem;">
+        <h3>{{ selectedConfig() ? 'Edit Config: ' + selectedConfig()?.entity : 'Create New Entity' }}</h3>
+        <p><i>Note: For the demo, this uses a raw JSON input for speed, but could be bound to another
+            ngx-dynamic-form.</i></p>
+        <textarea #configJson style="width: 100%; height: 300px; font-family: monospace;"
+          [value]="selectedConfig() | json"></textarea>
+        <button class="ngx-form__submit" (click)="onConfigSubmit(JSON.parse(configJson.value))">Save Config</button>
+      </div>
+      }
+    </div>
+    }
+  </main>
+</div>

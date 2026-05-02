@@ -1,0 +1,80 @@
+<form [formGroup]="form" (ngSubmit)="submit()" class="ngx-form" novalidate>
+
+  <!-- Migration banner — visible in graceful mode when record is stale -->
+  @if (needsMigration) {
+    <div class="ngx-form__migration-banner" role="alert">
+      ⚠️ This record was created with an older configuration version.
+      @if (versionService.shouldBlockSubmit(initialData || {}, config)) {
+        Please run migration before editing.
+      } @else {
+        It will be updated to the latest version on save.
+      }
+    </div>
+  }
+
+  <!-- Error message -->
+  @if (error) {
+    <div class="ngx-form__error-banner" role="alert">{{ error }}</div>
+  }
+
+  <!-- Tab bar — only if tabs defined -->
+  @if (tabs.length > 0) {
+    <div class="ngx-form__tabs" role="tablist">
+      <!-- ONEHERMES fix: @for and @if on separate elements, not same (form-fixes doc) -->
+      @for (tab of tabs; track tab.id) {
+        <button
+          type="button"
+          class="ngx-form__tab"
+          [class.ngx-form__tab--active]="activeTab() === tab.id"
+          (click)="setActiveTab(tab.id)"
+          role="tab"
+          [attr.aria-selected]="activeTab() === tab.id"
+        >
+          {{ tab.label[language] || tab.label['en'] }}
+        </button>
+      }
+    </div>
+  }
+
+  <!-- Fields for active tab -->
+  <div class="ngx-form__panel">
+    @for (field of fieldsForActiveTab; track field.id) {
+      @if (field.visible !== false) {
+        <ngx-dynamic-field
+          [field]="field"
+          [control]="getControl(field.id)!"
+          [config]="config"
+          [language]="language"
+          [readonly]="readonly || !!field.readonly"
+          [userRoles]="userRoles"
+        />
+      }
+    }
+  </div>
+
+  <!-- Submit button — gated by RBAC and isSaving lock -->
+  @if (!readonly && permissions.canEdit) {
+    <div class="ngx-form__actions">
+      <button
+        type="button"
+        class="ngx-form__reset"
+        (click)="reset()"
+        [disabled]="isSaving()"
+      >
+        Reset
+      </button>
+      <button
+        type="submit"
+        class="ngx-form__submit"
+        [disabled]="!canSubmit || form.invalid"
+      >
+        @if (isSaving() || loading) {
+          Saving…
+        } @else {
+          Save
+        }
+      </button>
+    </div>
+  }
+
+</form>
